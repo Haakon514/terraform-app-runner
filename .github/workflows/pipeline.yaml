@@ -38,7 +38,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: eu-west-1
       IMAGE: 244530008913.dkr.ecr.eu-west-1.amazonaws.com/hagu021-private:latest
-      PREFIX: hagu021-private
+      PREFIX: hagu021
  #    TF_LOG: trace
     steps:
       - uses: actions/checkout@v3
@@ -47,9 +47,9 @@ jobs:
         
         #when ran 1 time, remove init, because it will try to make a new app runner service called the same as the last one
 
-     # - name: Terraform Init
-        #id: init
-      #  run: terraform init
+      - name: Terraform Init
+        id: init
+        run: terraform init
 
       - name: Terraform Plan
         id: plan
@@ -62,4 +62,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -var="prefix=hagu021-private" -var="image=244530008913.dkr.ecr.eu-west-1.amazonaws.com/hagu021-private:latest"  -auto-approve
+        run: terraform apply -var="prefix=hagu021" -var="image=244530008913.dkr.ecr.eu-west-1.amazonaws.com/hagu021-private:latest"  -auto-approve
